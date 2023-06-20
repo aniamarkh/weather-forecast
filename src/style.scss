@@ -1,4 +1,4 @@
-$init-fradient: linear-gradient(45deg,#fee140,#fa709a,#23a6d5);
+$init-fradient: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%);
 
 * {
   box-sizing: border-box;
@@ -24,19 +24,12 @@ $init-fradient: linear-gradient(45deg,#fee140,#fa709a,#23a6d5);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  padding: 20px;
   min-height: 100vh;
   background: $init-fradient;
   background-size: 200% 200%;
 	animation: gradient 30s ease infinite;
-}
-
-.container {
-  background: #ffffff24;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(53, 0, 44, 0.1);
-  backdrop-filter: blur(8px);
+  transition: all .3s ease-in-out;
 }
 
 a {
