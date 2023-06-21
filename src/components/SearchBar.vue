@@ -2,11 +2,11 @@
 import { ref } from 'vue';
 import type { Ref } from 'vue';
 import axios from 'axios';
-import type { ResponseFeature } from '../types';
+import type { LocationResponce } from '../types';
 
 const searchQuery = ref('');
 const queryTimeout: Ref<null | number> = ref(null);
-const searchResults: Ref<null | ResponseFeature[]> = ref(null);
+const searchResults: Ref<null | LocationResponce[]> = ref(null);
 const searchError: Ref<boolean> = ref(false);
 
 const vFocus = {
@@ -23,7 +23,7 @@ const searchPlaces = () => {
             searchQuery.value
           }.json?access_token=${import.meta.env.VITE_MAPBOX_API_KEY}&types=place&language=en`
         );
-        searchResults.value = result.data.features as ResponseFeature[];
+        searchResults.value = result.data.features as LocationResponce[];
       } catch {
         searchError.value = true;
       }
@@ -39,6 +39,8 @@ const formatPlaceName = (placeName: string) => {
   const parts = placeName.split(',');
   return `<b>${parts[0]}</b>,${parts.slice(1).join(',')}`;
 };
+
+const emit = defineEmits(['setPlace']);
 </script>
 
 <template>
@@ -56,7 +58,7 @@ const formatPlaceName = (placeName: string) => {
         class="results__item"
         v-for="searchResult in searchResults"
         :key="searchResult.id"
-        @click="console.log(searchResult.text_en)"
+        @click="emit('setPlace', searchResult.text_en)"
       >
         <p v-html="formatPlaceName(searchResult.place_name)"></p>
       </li>
@@ -76,7 +78,7 @@ const formatPlaceName = (placeName: string) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 500px;
+  width: 100%;
   margin-top: 20px;
 
   &__comment {
