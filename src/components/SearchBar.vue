@@ -9,6 +9,10 @@ const queryTimeout: Ref<null | number> = ref(null);
 const searchResults: Ref<null | ResponseFeature[]> = ref(null);
 const searchError: Ref<boolean> = ref(false);
 
+const vFocus = {
+  mounted: (el: HTMLInputElement) => el.focus(),
+};
+
 const searchPlaces = () => {
   if (queryTimeout.value !== null) clearTimeout(queryTimeout.value);
   queryTimeout.value = window.setTimeout(async () => {
@@ -45,6 +49,7 @@ const formatPlaceName = (placeName: string) => {
       v-model="searchQuery"
       @input="searchPlaces"
       placeholder="Enter city name here"
+      v-focus
     />
     <ul class="search__results" v-if="searchResults && searchResults.length">
       <li
@@ -53,7 +58,7 @@ const formatPlaceName = (placeName: string) => {
         :key="searchResult.id"
         @click="console.log(searchResult.text_en)"
       >
-        <span v-html="formatPlaceName(searchResult.place_name)"></span>
+        <p v-html="formatPlaceName(searchResult.place_name)"></p>
       </li>
     </ul>
     <p v-if="!searchResults && !searchError" class="search__comment">
@@ -71,26 +76,24 @@ const formatPlaceName = (placeName: string) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 460px;
+  width: 500px;
   margin-top: 20px;
 
   &__comment {
     font-weight: bold;
-    margin: 10px 10px 0;
+    margin: 15px 10px 0;
     align-self: flex-start;
   }
 
   &__input {
-    min-width: 300px;
     width: 100%;
-    height: 32px;
+    height: 42px;
     padding: 12px;
     border: none;
     border-radius: 10px;
     background: #ffffff24;
-    box-shadow: 0 4px 30px #74142742;
+    box-shadow: 0 4px 30px #74142728;
     backdrop-filter: blur(10px);
-    font-size: 16px;
 
     &::placeholder {
       color: white;
@@ -104,10 +107,9 @@ const formatPlaceName = (placeName: string) => {
   &__results {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    padding: 10px;
+    gap: 10px;
+    padding: 15px 10px;
     width: 100%;
-
     .results__item {
       cursor: pointer;
       transition: all 0.2s;
