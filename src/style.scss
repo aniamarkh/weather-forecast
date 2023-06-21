@@ -1,11 +1,19 @@
-$init-fradient: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%);
+:root {
+  --init-gradient: linear-gradient(45deg, #9b759b, #6daab1, #6daab1);
+}
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Raleway', sans-serif;
   color: white;
+}
+
+
+
+main {
+  z-index: 2;
 }
 
 @keyframes gradient {
@@ -21,15 +29,28 @@ $init-fradient: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, 
 }
 
 #app {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
   min-height: 100vh;
-  background: $init-fradient;
+  background: var(--init-gradient);
   background-size: 200% 200%;
-	animation: gradient 30s ease infinite;
+  animation: gradient 10s ease infinite;
   transition: all .3s ease-in-out;
+}
+
+#app::before {
+  content: "";
+  position: absolute;
+  top: 0; 
+  right: 0; 
+  bottom: 0; 
+  left: 0; 
+  background-image: url(assets/images/noise.svg);
+  background-repeat: repeat;
+  background-size: 10%;
 }
 
 a {
@@ -39,6 +60,14 @@ a {
 
 ul {
   list-style-type: none;
+}
+
+p {
+  font-size: 1.25rem;
+}
+
+input {
+  font-size: 1.25rem;
 }
 
 button {
