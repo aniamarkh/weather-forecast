@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 import axios from 'axios';
 import SearchBar from './components/SearchBar.vue';
-import CurrentWeather from './components/CurrentWeather.vue';
+import PlaceForecast from './components/PlaceForecast.vue';
 import type { ForecastResponce } from './types';
 
 const placeToTrack: Ref<null | string> = ref(null);
@@ -33,7 +33,7 @@ const getWeather = async (placeName: string) => {
     </div>
     <Transition mode="out-in">
       <SearchBar v-if="!placeToTrack" @setPlace="getWeather" />
-      <CurrentWeather v-else-if="placeToTrack && weatherForecast" :forecast="weatherForecast" />
+      <PlaceForecast v-else-if="placeToTrack && weatherForecast" :forecast="weatherForecast" />
     </Transition>
   </main>
 </template>

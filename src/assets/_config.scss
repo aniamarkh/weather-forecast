@@ -1,0 +1,17 @@
+@mixin glassmorphism {
+  border-radius: 20px;
+  background: #ffffff24;
+  box-shadow: 0 4px 30px #74142728;
+  backdrop-filter: blur(10px);
+}
+
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

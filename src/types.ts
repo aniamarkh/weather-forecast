@@ -32,7 +32,7 @@ interface Location {
   localtime: string;
 }
 
-interface CurrentWeather {
+export interface CurrentWeather {
   last_updated: string;
   temp_c: number;
   is_day: number;
@@ -40,6 +40,7 @@ interface CurrentWeather {
     text: string;
     code: number;
   };
+  pressure_mb: number;
   wind_kph: number;
   humidity: number;
   feelslike_c: number;
