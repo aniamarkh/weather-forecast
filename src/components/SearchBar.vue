@@ -53,23 +53,27 @@ const emit = defineEmits(['setPlace']);
       placeholder="Enter city name here"
       v-focus
     />
-    <ul class="search__results" v-if="searchResults && searchResults.length">
-      <li
-        class="results__item"
-        v-for="searchResult in searchResults"
-        :key="searchResult.id"
-        @click="emit('setPlace', searchResult.text_en)"
-      >
-        <p v-html="formatPlaceName(searchResult.place_name)"></p>
-      </li>
-    </ul>
-    <p v-if="!searchResults && !searchError" class="search__comment">
-      Start tracking a location by searching above.
-    </p>
-    <p v-if="searchResults && !searchResults.length && !searchError" class="search__comment">
-      No places found 🤔
-    </p>
-    <p v-if="searchError" class="search__comment">Something went wrong, please try again 😵‍💫</p>
+    <Transition mode="out-in">
+      <ul class="search__results" v-if="searchResults && searchResults.length">
+        <li
+          class="results__item"
+          v-for="searchResult in searchResults"
+          :key="searchResult.id"
+          @click="emit('setPlace', searchResult.text_en)"
+        >
+          <p v-html="formatPlaceName(searchResult.place_name)"></p>
+        </li>
+      </ul>
+      <p v-else-if="!searchResults && !searchError" class="search__comment">
+        Start tracking a location by searching above.
+      </p>
+      <p v-else-if="searchResults && !searchResults.length && !searchError" class="search__comment">
+        No places found 🤔
+      </p>
+      <p v-else-if="searchError" class="search__comment">
+        Something went wrong, please try again 😵‍💫
+      </p>
+    </Transition>
   </div>
 </template>
 

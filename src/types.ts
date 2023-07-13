@@ -13,7 +13,7 @@ export interface LocationResponce {
   address: string;
 }
 
-export interface ForecastObject {
+export interface ForecastResponce {
   location: Location;
   current: CurrentWeather;
   forecast: {
