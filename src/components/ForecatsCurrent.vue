@@ -12,8 +12,11 @@ const currentWeatherIcon = computed(() => {
 });
 
 const kphIntoMps = (kphValue: number) => {
-  console.log(props.current);
   return (kphValue * (5 / 18)).toFixed(1);
+};
+
+const mbToMmHg = (mbValue: number) => {
+  return Math.round(mbValue * 0.750062);
 };
 </script>
 
@@ -39,7 +42,7 @@ const kphIntoMps = (kphValue: number) => {
       </div>
       <div class="secondary__item">
         <span class="material-symbols-outlined">speed</span>
-        <p>{{ Math.round(current.pressure_mb * 0.750062) + ' mmHg' }}</p>
+        <p>{{ mbToMmHg(current.pressure_mb) + ' mmHg' }}</p>
       </div>
       <div class="secondary__item">
         <span class="uv">UV</span>
