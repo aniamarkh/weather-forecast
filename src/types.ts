@@ -47,7 +47,7 @@ export interface CurrentWeather {
   uv: number;
 }
 
-interface ForecastDay {
+export interface ForecastDay {
   date: string;
   day: {
     avgtemp_c: number;
@@ -58,12 +58,14 @@ interface ForecastDay {
     };
   };
   astro: Record<string, unknown>;
-  hour: {
-    time: string;
-    temp_c: number;
-    is_day: number;
-    condition: {
-      code: number;
-    };
-  }[];
+  hour: ByHoursObject[];
+}
+
+export interface ByHoursObject {
+  time: string;
+  temp_c: number;
+  is_day: number;
+  condition: {
+    code: number;
+  };
 }

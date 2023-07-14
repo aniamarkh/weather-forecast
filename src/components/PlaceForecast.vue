@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ForecastResponce } from '../types';
 import ForecastCurrent from './ForecatsCurrent.vue';
+import TodayForecast from './today/HourlyForecast.vue';
 
 defineProps<{ forecast: ForecastResponce }>();
 </script>
@@ -20,6 +21,11 @@ defineProps<{ forecast: ForecastResponce }>();
       </button>
     </div>
     <ForecastCurrent :current="forecast.current" />
+    <TodayForecast
+      :today="forecast.forecast.forecastday[0]"
+      :tomorrow="forecast.forecast.forecastday[1]"
+      :last_updated="forecast.current.last_updated"
+    />
   </div>
 </template>
 

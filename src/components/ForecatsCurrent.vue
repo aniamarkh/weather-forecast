@@ -1,15 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import type { CurrentWeather } from '../types';
-import iconMapping from '../utils/iconMapping';
+import ConditionIcon from './ConditionIcon.vue';
 
-const props = defineProps<{ current: CurrentWeather }>();
-
-const currentWeatherIcon = computed(() => {
-  const isDay = props.current.is_day ? true : false;
-  const iconLocation = isDay ? '../assets/images/day' : '../assets/images/night';
-  return `${iconLocation}/${iconMapping[props.current.condition.code.toString()]}`;
-});
+defineProps<{ current: CurrentWeather }>();
 
 const kphIntoMps = (kphValue: number) => {
   return (kphValue * (5 / 18)).toFixed(1);
@@ -23,7 +16,11 @@ const mbToMmHg = (mbValue: number) => {
 <template>
   <div class="forecast__current">
     <div class="current__main">
-      <img class="current__icon" :src="currentWeatherIcon" />
+      <ConditionIcon
+        class="current__icon"
+        :code="current.condition.code"
+        :is_day="current.is_day"
+      />
       <p class="current__temp">{{ Math.round(current.temp_c) + '°' }}</p>
     </div>
     <p class="current__condition">{{ current.condition.text }}</p>
@@ -56,7 +53,7 @@ const mbToMmHg = (mbValue: number) => {
 @import '../assets/_config.scss';
 
 .forecast__current {
-  width: 80%;
+  width: 90%;
   @include flex-column;
   gap: 5px;
   @include glassmorphism;
@@ -92,6 +89,7 @@ const mbToMmHg = (mbValue: number) => {
 
   .secondary__item {
     @include flex-column;
+    padding: 10px;
 
     span {
       line-height: 30px;
