@@ -2,6 +2,7 @@
 import type { ForecastResponce } from '../types';
 import ForecastCurrent from './ForecatsCurrent.vue';
 import TodayForecast from './today/HourlyForecast.vue';
+import DailyForecast from './daily/DailyForecast.vue';
 
 defineProps<{ forecast: ForecastResponce }>();
 </script>
@@ -26,6 +27,7 @@ defineProps<{ forecast: ForecastResponce }>();
       :tomorrow="forecast.forecast.forecastday[1]"
       :last_updated="forecast.current.last_updated"
     />
+    <DailyForecast :daily-forecast="forecast.forecast" />
   </div>
 </template>
 

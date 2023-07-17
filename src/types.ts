@@ -16,9 +16,11 @@ export interface LocationResponce {
 export interface ForecastResponce {
   location: Location;
   current: CurrentWeather;
-  forecast: {
-    forecastday: ForecastDay[];
-  };
+  forecast: DailyForecast;
+}
+
+export interface DailyForecast {
+  forecastday: ForecastDay[];
 }
 
 interface Location {
@@ -50,14 +52,17 @@ export interface CurrentWeather {
 export interface ForecastDay {
   date: string;
   day: {
-    avgtemp_c: number;
-    totalsnow_cm: number;
+    maxtemp_c: number;
+    mintemp_c: number;
     condition: {
       text: string;
       code: number;
     };
   };
-  astro: Record<string, unknown>;
+  astro: {
+    sunrise: string;
+    sunset: string;
+  };
   hour: ByHoursObject[];
 }
 

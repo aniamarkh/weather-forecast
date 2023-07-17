@@ -57,7 +57,7 @@ const mbToMmHg = (mbValue: number) => {
   @include flex-column;
   gap: 5px;
   @include glassmorphism;
-  padding: 25px;
+  padding: 20px;
 }
 
 .current__main {
