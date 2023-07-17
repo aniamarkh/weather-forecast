@@ -3,8 +3,46 @@ import type { ForecastResponce } from '../types';
 import ForecastCurrent from './ForecatsCurrent.vue';
 import TodayForecast from './today/HourlyForecast.vue';
 import DailyForecast from './daily/DailyForecast.vue';
+import { warmWeatherCodes, coldWeatherCodes, conditionGradients } from '../utils/weatherGradients';
+import { onMounted, onUnmounted } from 'vue';
 
-defineProps<{ forecast: ForecastResponce }>();
+const props = defineProps<{ forecast: ForecastResponce }>();
+
+const setBackground = (code: number, isDay: number, temp: number) => {
+  let weatherGradient: string = document.documentElement.style.getPropertyValue('--init-gradient');
+  if (warmWeatherCodes.has(code) || temp >= 15) {
+    if (isDay) {
+      weatherGradient = conditionGradients.warm.day;
+    } else {
+      weatherGradient = conditionGradients.warm.night;
+    }
+  } else if (coldWeatherCodes.has(code) || temp < 15) {
+    if (isDay) {
+      weatherGradient = conditionGradients.cold.day;
+    } else {
+      weatherGradient = conditionGradients.cold.night;
+    }
+  } else {
+    throw new Error('Unknown weather code');
+  }
+
+  document.documentElement.style.setProperty('--init-gradient', weatherGradient);
+};
+
+onMounted(() => {
+  setBackground(
+    props.forecast.current.condition.code,
+    props.forecast.current.is_day,
+    props.forecast.current.temp_c
+  );
+});
+
+onUnmounted(() => {
+  document.documentElement.style.setProperty(
+    '--init-gradient',
+    'linear-gradient(45deg, #9b759b, #6daab1)'
+  );
+});
 </script>
 
 <template>
