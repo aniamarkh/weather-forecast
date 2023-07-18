@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, Ref, watch } from 'vue';
-import type { ForecastDay, ByHoursObject } from '../../types';
+import type { ForecastDay, HourInfoObj, SunActivityObj } from '../../types';
 import ByHoursCard from './ByHoursCard.vue';
+import SunActivityCard from './SunActivityCard.vue';
 
 const props = defineProps<{
   today: ForecastDay;
@@ -10,15 +11,25 @@ const props = defineProps<{
 }>();
 
 const extractHour = (date: string) => {
-  return parseInt(date.split(' ')[1].split(':')[0]);
+  return Number(date.split(' ')[1].split(':')[0]);
 };
 
-const getNext24Hours = (
-  todayForecast: ByHoursObject[],
-  tomorrowForecast: ByHoursObject[]
-): ByHoursObject[] => {
-  const currentHour = extractHour(props.last_updated);
+const convertTo24hours = (timeStr: string): string => {
+  const [time, period] = timeStr.split(' ');
+  // eslint-disable-next-line prefer-const
+  let [hours, minutes] = time.split(':');
+  if (period === 'PM' && hours !== '12') hours = (Number(hours) + 12).toString();
+  if (period === 'AM' && hours === '12') hours = '00';
 
+  return `${hours}:${minutes}`;
+};
+
+const currentHour = extractHour(props.last_updated);
+
+const getCardsData = (
+  todayForecast: HourInfoObj[],
+  tomorrowForecast: HourInfoObj[]
+): (HourInfoObj | SunActivityObj)[] => {
   const remainingToday = todayForecast.filter(
     (hourData) => extractHour(hourData.time) > currentHour
   );
@@ -26,11 +37,51 @@ const getNext24Hours = (
     (hourData) => extractHour(hourData.time) <= currentHour
   );
 
-  const next24Hours = remainingToday.concat(remainingTomorrow).slice(0, 24);
-  return next24Hours;
+  let cardsData: (HourInfoObj | SunActivityObj)[] = remainingToday
+    .concat(remainingTomorrow)
+    .slice(0, 24);
+  const sunrise: SunActivityObj = getSunActivityObjects().sunriseInfo;
+  const sunset: SunActivityObj = getSunActivityObjects().sunsetInfo;
+
+  cardsData = incertSunActivityObj(cardsData, sunrise);
+  cardsData = incertSunActivityObj(cardsData, sunset);
+
+  return cardsData;
 };
 
-const next24Hours = getNext24Hours(props.today.hour, props.tomorrow.hour);
+const incertSunActivityObj = (
+  cardsArr: (HourInfoObj | SunActivityObj)[],
+  sunInfoObj: SunActivityObj
+) => {
+  for (let i = 0; i < cardsArr.length; i++) {
+    const itemHour = parseInt((cardsArr[i] as HourInfoObj).time.split(' ')[1].split(':')[0]);
+    if (
+      !(cardsArr[i] as SunActivityObj).type &&
+      itemHour === Number(convertTo24hours(sunInfoObj.time).split(':')[0])
+    ) {
+      cardsArr.splice(i + 1, 0, sunInfoObj);
+      break;
+    }
+  }
+  return cardsArr;
+};
+
+const getSunActivityObjects = () => {
+  const sunriseInfo = { time: '', type: 'sunrise' };
+  const sunsetInfo = { time: '', type: 'sunset' };
+
+  currentHour > Number(convertTo24hours(props.today.astro.sunrise).split(':')[0])
+    ? (sunriseInfo.time = convertTo24hours(props.tomorrow.astro.sunrise))
+    : (sunriseInfo.time = convertTo24hours(props.today.astro.sunrise));
+
+  currentHour < Number(convertTo24hours(props.today.astro.sunrise).split(':')[0])
+    ? (sunsetInfo.time = convertTo24hours(props.today.astro.sunset))
+    : (sunsetInfo.time = convertTo24hours(props.tomorrow.astro.sunset));
+
+  return { sunriseInfo, sunsetInfo };
+};
+
+const cardsData = getCardsData(props.today.hour, props.tomorrow.hour);
 
 const cardsContainer: Ref<null | HTMLElement> = ref(null);
 const scrollToLeft = ref(true);
@@ -79,7 +130,14 @@ watch(
       <span class="material-symbols-outlined"> chevron_left </span>
     </button>
     <div ref="cardsContainer" class="by-hours__cards" @scroll="checkScroll">
-      <ByHoursCard v-for="hour of next24Hours" :key="hour.time" :hour-info="hour" />
+      <template v-for="(card, index) in cardsData">
+        <SunActivityCard
+          v-if="(card as SunActivityObj).type"
+          :key="index + 'sunActivity'"
+          :card-info="(card as SunActivityObj)"
+        />
+        <ByHoursCard v-else :key="index" :hour-info="(card as HourInfoObj)" />
+      </template>
     </div>
     <button
       :disabled="scrollToRight"

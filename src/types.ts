@@ -63,14 +63,19 @@ export interface ForecastDay {
     sunrise: string;
     sunset: string;
   };
-  hour: ByHoursObject[];
+  hour: HourInfoObj[];
 }
 
-export interface ByHoursObject {
+export interface HourInfoObj {
   time: string;
   temp_c: number;
   is_day: number;
   condition: {
     code: number;
   };
+}
+
+export interface SunActivityObj {
+  time: string;
+  type: string;
 }

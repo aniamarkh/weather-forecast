@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { ByHoursObject } from '../../types';
+import type { HourInfoObj } from '../../types';
 import ConditionIcon from '../ConditionIcon.vue';
 
-defineProps<{ hourInfo: ByHoursObject }>();
+defineProps<{ hourInfo: HourInfoObj }>();
 
 const extractTime = (date: string) => {
-  return date === 'now' ? 'now' : date.split(' ')[1];
+  return date.split(' ')[1];
 };
 </script>
 

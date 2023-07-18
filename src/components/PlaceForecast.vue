@@ -84,6 +84,16 @@ onUnmounted(() => {
   width: 100%;
 }
 
+.header__button {
+  border-radius: 20px;
+  @include flex-column;
+  padding: 10px;
+
+  &:hover {
+    @include glassmorphism;
+  }
+}
+
 .header__location {
   @include flex-column;
 
