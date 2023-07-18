@@ -1,12 +1,31 @@
 <script setup lang="ts">
+import axios from 'axios';
+import { ref } from 'vue';
+import type { Ref } from 'vue';
 import type { ForecastResponce } from '../types';
 import ForecastCurrent from './ForecatsCurrent.vue';
 import TodayForecast from './today/HourlyForecast.vue';
 import DailyForecast from './daily/DailyForecast.vue';
 import { warmWeatherCodes, coldWeatherCodes, conditionGradients } from '../utils/weatherGradients';
-import { onMounted, onUnmounted } from 'vue';
+import { onBeforeMount, onUnmounted } from 'vue';
 
-const props = defineProps<{ forecast: ForecastResponce }>();
+const props = defineProps<{ place: String }>();
+const forecast: Ref<null | ForecastResponce> = ref(null);
+const forecastError: Ref<boolean> = ref(false);
+const emit = defineEmits(['back-to-search']);
+
+const getWeather = async () => {
+  try {
+    const currentResult = await axios.get(
+      `https://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API_KEY}&q=${
+        props.place
+      }&days=3&aqi=no&alerts=no`
+    );
+    forecast.value = currentResult.data as ForecastResponce;
+  } catch {
+    forecastError.value = true;
+  }
+};
 
 const setBackground = (code: number, isDay: number, temp: number) => {
   let weatherGradient: string = document.documentElement.style.getPropertyValue('--init-gradient');
@@ -29,12 +48,19 @@ const setBackground = (code: number, isDay: number, temp: number) => {
   document.documentElement.style.setProperty('--init-gradient', weatherGradient);
 };
 
-onMounted(() => {
-  setBackground(
-    props.forecast.current.condition.code,
-    props.forecast.current.is_day,
-    props.forecast.current.temp_c
-  );
+onBeforeMount(() => {
+  getWeather()
+    .then(() => {
+      if (forecast.value)
+        setBackground(
+          forecast.value.current.condition.code,
+          forecast.value.current.is_day,
+          forecast.value.current.temp_c
+        );
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 onUnmounted(() => {
@@ -46,9 +72,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="forecast">
+  <div v-if="forecast" class="forecast">
     <div class="forecast__header">
-      <button class="header__button">
+      <button class="header__button" @click="emit('back-to-search')">
         <span class="material-symbols-outlined"> arrow_back </span>
       </button>
       <div class="header__location">

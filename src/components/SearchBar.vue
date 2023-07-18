@@ -40,7 +40,7 @@ const formatPlaceName = (placeName: string) => {
   return `<b>${parts[0]}</b>,${parts.slice(1).join(',')}`;
 };
 
-const emit = defineEmits(['setPlace']);
+const emit = defineEmits(['set-place']);
 </script>
 
 <template>
@@ -59,7 +59,7 @@ const emit = defineEmits(['setPlace']);
           class="results__item"
           v-for="searchResult in searchResults"
           :key="searchResult.id"
-          @click="emit('setPlace', searchResult.text_en)"
+          @click="emit('set-place', searchResult.text_en)"
         >
           <p v-html="formatPlaceName(searchResult.place_name)"></p>
         </li>
@@ -82,7 +82,7 @@ const emit = defineEmits(['setPlace']);
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 360px;
   margin-top: 20px;
 
   &__comment {

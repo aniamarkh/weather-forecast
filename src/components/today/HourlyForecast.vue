@@ -54,13 +54,12 @@ const incertSunActivityObj = (
   sunInfoObj: SunActivityObj
 ) => {
   for (let i = 0; i < cardsArr.length; i++) {
-    const itemHour = parseInt((cardsArr[i] as HourInfoObj).time.split(' ')[1].split(':')[0]);
-    if (
-      !(cardsArr[i] as SunActivityObj).type &&
-      itemHour === Number(convertTo24hours(sunInfoObj.time).split(':')[0])
-    ) {
-      cardsArr.splice(i + 1, 0, sunInfoObj);
-      break;
+    if (!(cardsArr[i] as SunActivityObj).type) {
+      const itemHour = parseInt((cardsArr[i] as HourInfoObj).time.split(' ')[1].split(':')[0]);
+      if (itemHour === Number(convertTo24hours(sunInfoObj.time).split(':')[0])) {
+        cardsArr.splice(i + 1, 0, sunInfoObj);
+        break;
+      }
     }
   }
   return cardsArr;

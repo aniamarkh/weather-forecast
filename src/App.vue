@@ -1,28 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 import type { Ref } from 'vue';
-import axios from 'axios';
 import SearchBar from './components/SearchBar.vue';
 import PlaceForecast from './components/PlaceForecast.vue';
-import type { ForecastResponce } from './types';
 
-const placeToTrack: Ref<null | string> = ref(null);
-const weatherForecast: Ref<null | ForecastResponce> = ref(null);
-const forecastError: Ref<boolean> = ref(false);
+const userPlaces: Ref<Array<string>> = ref([]);
+const selectedPlace: Ref<null | string> = ref(null);
 
-const getWeather = async (placeName: string) => {
-  placeToTrack.value = placeName;
-  try {
-    const currentResult = await axios.get(
-      `https://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API_KEY}&q=${
-        placeToTrack.value
-      }&days=3&aqi=no&alerts=no`
-    );
-    weatherForecast.value = currentResult.data as ForecastResponce;
-  } catch {
-    forecastError.value = true;
-  }
-};
+const setSelectedPlace = (placeName: string) => (selectedPlace.value = placeName);
+const backToSearch = () => (selectedPlace.value = null);
+
+onBeforeMount(() => {
+  const localData = localStorage.getItem('places');
+  if (localData) userPlaces.value = JSON.parse(localData);
+});
 </script>
 
 <template>
@@ -32,8 +23,14 @@ const getWeather = async (placeName: string) => {
       <h2 class="header__title">wow it's a weather app...</h2>
     </div>
     <Transition mode="out-in">
-      <SearchBar v-if="!placeToTrack" @setPlace="getWeather" />
-      <PlaceForecast v-else-if="placeToTrack && weatherForecast" :forecast="weatherForecast" />
+      <div v-if="!selectedPlace" class="start-screen">
+        <SearchBar @set-place="setSelectedPlace" />
+      </div>
+      <PlaceForecast
+        v-else-if="selectedPlace"
+        :place="selectedPlace"
+        @back-to-search="backToSearch"
+      />
     </Transition>
   </main>
 </template>
