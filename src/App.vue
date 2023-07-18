@@ -3,6 +3,7 @@ import { onBeforeMount, ref } from 'vue';
 import type { Ref } from 'vue';
 import SearchBar from './components/SearchBar.vue';
 import PlaceForecast from './components/PlaceForecast.vue';
+import PlaceCard from './components/PlaceCard.vue';
 
 const userPlaces: Ref<Array<string>> = ref([]);
 const selectedPlace: Ref<null | string> = ref(null);
@@ -13,6 +14,7 @@ const backToSearch = () => (selectedPlace.value = null);
 onBeforeMount(() => {
   const localData = localStorage.getItem('places');
   if (localData) userPlaces.value = JSON.parse(localData);
+  else userPlaces.value = ['Hong Kong', 'Istanbul', 'London'];
 });
 </script>
 
@@ -24,6 +26,12 @@ onBeforeMount(() => {
     </div>
     <Transition mode="out-in">
       <div v-if="!selectedPlace" class="start-screen">
+        <PlaceCard
+          v-for="(place, index) of userPlaces"
+          :key="index"
+          :place="place"
+          @set-place="setSelectedPlace"
+        />
         <SearchBar @set-place="setSelectedPlace" />
       </div>
       <PlaceForecast
@@ -36,6 +44,8 @@ onBeforeMount(() => {
 </template>
 
 <style lang="scss" scoped>
+@import './assets/config';
+
 .header {
   height: 60px;
   width: 100%;
@@ -44,6 +54,11 @@ onBeforeMount(() => {
   align-items: center;
   gap: 10px;
   cursor: default;
+}
+
+.start-screen {
+  @include flex-column;
+  gap: 15px;
 }
 
 .header__icon {

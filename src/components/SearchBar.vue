@@ -83,7 +83,7 @@ const emit = defineEmits(['set-place']);
   flex-direction: column;
   align-items: center;
   width: 360px;
-  margin-top: 20px;
+  margin-top: 10px;
 
   &__comment {
     font-weight: bold;

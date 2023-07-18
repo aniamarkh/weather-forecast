@@ -19,6 +19,11 @@ export interface ForecastResponce {
   forecast: DailyForecast;
 }
 
+export interface CurrentForecastResponce {
+  location: Location;
+  current: CurrentWeather;
+}
+
 export interface DailyForecast {
   forecastday: ForecastDay[];
 }
