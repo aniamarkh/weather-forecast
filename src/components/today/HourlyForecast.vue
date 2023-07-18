@@ -153,8 +153,8 @@ watch(
 @import '../../assets/_config.scss';
 
 .forecast__by-hours {
+  width: 100%;
   height: 160px;
-  width: 90%;
   @include flex-row;
   align-items: center;
   justify-content: space-between;

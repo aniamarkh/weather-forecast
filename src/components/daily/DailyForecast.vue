@@ -14,11 +14,11 @@ defineProps<{ dailyForecast: DailyForecast }>();
 @import '../../assets/_config.scss';
 
 .forecast__daily {
+  width: 100%;
   @include flex-column;
   align-items: flex-start;
   gap: 15px;
   @include glassmorphism;
-  width: 90%;
   padding: 20px;
 }
 </style>

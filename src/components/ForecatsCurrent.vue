@@ -53,7 +53,7 @@ const mbToMmHg = (mbValue: number) => {
 @import '../assets/_config.scss';
 
 .forecast__current {
-  width: 90%;
+  width: 100%;
   @include flex-column;
   gap: 5px;
   @include glassmorphism;
