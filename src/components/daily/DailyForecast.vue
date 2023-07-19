@@ -6,7 +6,12 @@ defineProps<{ dailyForecast: DailyForecast }>();
 
 <template>
   <div class="forecast__daily">
-    <DailyCard v-for="day of dailyForecast.forecastday" :key="day.date" :day-forecast="day" />
+    <DailyCard
+      v-for="(day, index) of dailyForecast.forecastday"
+      :key="index"
+      :day-forecast="day"
+      :date="index === 0 ? 'Today' : day.date"
+    />
   </div>
 </template>
 

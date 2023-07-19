@@ -2,7 +2,7 @@
 import type { ForecastDay } from '../../types';
 import ConditionIcon from '../ConditionIcon.vue';
 
-defineProps<{ dayForecast: ForecastDay }>();
+defineProps<{ dayForecast: ForecastDay; date: string }>();
 
 const getWeekday = (dateString: string) => {
   const date = new Date(dateString);
@@ -10,15 +10,15 @@ const getWeekday = (dateString: string) => {
 };
 
 const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  const today = new Date();
-
-  date.setHours(0, 0, 0, 0);
-  today.setHours(0, 0, 0, 0);
-
-  if (date.getTime() === today.getTime()) {
+  if (dateString === 'Today') {
     return 'Today';
   } else {
+    const date = new Date(dateString);
+    const today = new Date();
+
+    date.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
     return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
   }
 };
@@ -28,7 +28,7 @@ const formatDate = (dateString: string) => {
   <div class="daily__card">
     <div class="card__left">
       <p class="card__weekday">{{ getWeekday(dayForecast.date) }}</p>
-      <p class="card__date">{{ formatDate(dayForecast.date) }}</p>
+      <p class="card__date">{{ formatDate(date) }}</p>
     </div>
     <div class="card__right">
       <ConditionIcon class="card__icon" :code="dayForecast.day.condition.code" :is_day="1" />
