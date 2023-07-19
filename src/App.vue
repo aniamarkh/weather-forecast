@@ -14,7 +14,7 @@ const backToSearch = () => (selectedPlace.value = null);
 onBeforeMount(() => {
   const localData = localStorage.getItem('places');
   if (localData) userPlaces.value = JSON.parse(localData);
-  else userPlaces.value = ['Hong Kong', 'Istanbul', 'London'];
+  else userPlaces.value = ['New York', 'Hong Kong', 'Tokyo', 'Istanbul'];
 });
 </script>
 
