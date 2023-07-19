@@ -2,15 +2,17 @@
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import type { Ref } from 'vue';
+import { useStore } from '../store';
 import type { CurrentForecastResponce } from '../types';
 import ConditionIcon from './ConditionIcon.vue';
 import LoadingDots from './LoadingDots.vue';
+
+const store = useStore();
 
 const props = defineProps<{ place: String }>();
 const loading = ref(true);
 const forecast: Ref<null | CurrentForecastResponce> = ref(null);
 const errorMessage: Ref<string> = ref('');
-const emit = defineEmits(['set-place']);
 
 const getForecast = async () => {
   try {
@@ -47,7 +49,11 @@ onMounted(() => {
     <div v-if="!loading && errorMessage" class="place-card__error">
       <p class="error__message">{{ errorMessage }}</p>
     </div>
-    <div v-if="!loading && forecast" class="place-card__result" @click="emit('set-place', place)">
+    <div
+      v-if="!loading && forecast"
+      class="place-card__result"
+      @click="store.commit('setSelectedPlace', place)"
+    >
       <div class="place-card__location">
         <p class="location__name">{{ forecast.location.name }}</p>
         <p class="location__country">{{ forecast.location.country }}</p>

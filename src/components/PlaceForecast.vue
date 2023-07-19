@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ref } from 'vue';
 import type { Ref } from 'vue';
 import type { ForecastResponce } from '../types';
+import { useStore } from '../store';
 import ForecastCurrent from './ForecatsCurrent.vue';
 import TodayForecast from './today/HourlyForecast.vue';
 import DailyForecast from './daily/DailyForecast.vue';
@@ -10,11 +11,12 @@ import LoadingDots from './LoadingDots.vue';
 import { warmWeatherCodes, coldWeatherCodes, conditionGradients } from '../utils/weatherGradients';
 import { onBeforeMount, onUnmounted } from 'vue';
 
+const store = useStore();
+
 const props = defineProps<{ place: String }>();
 const loading = ref(true);
 const forecast: Ref<null | ForecastResponce> = ref(null);
 const errorMessage: Ref<string> = ref('');
-const emit = defineEmits(['back-to-search']);
 
 const getForecast = async () => {
   try {
@@ -91,12 +93,12 @@ onUnmounted(() => {
       <p class="error__message">{{ errorMessage }}</p>
       <div class="error_buttons">
         <button class="error__button" @click="onLoad">try again</button>
-        <button class="error__button" @click="emit('back-to-search')">go back</button>
+        <button class="error__button" @click="store.commit('removeSelectedPlace')">go back</button>
       </div>
     </div>
     <div v-if="!loading && forecast" class="forecast__result">
       <div class="forecast__header">
-        <button class="header__button" @click="emit('back-to-search')">
+        <button class="header__button" @click="store.commit('removeSelectedPlace')">
           <span class="material-symbols-outlined"> arrow_back </span>
         </button>
         <div class="header__location">

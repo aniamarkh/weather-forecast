@@ -1,44 +1,24 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue';
-import type { Ref } from 'vue';
+import { useStore } from './store';
 import SearchBar from './components/SearchBar.vue';
 import PlaceForecast from './components/PlaceForecast.vue';
 import PlaceCard from './components/PlaceCard.vue';
 
-const userPlaces: Ref<Array<string>> = ref([]);
-const selectedPlace: Ref<null | string> = ref(null);
-
-const setSelectedPlace = (placeName: string) => (selectedPlace.value = placeName);
-const backToSearch = () => (selectedPlace.value = null);
-
-onBeforeMount(() => {
-  const localData = localStorage.getItem('places');
-  if (localData) userPlaces.value = JSON.parse(localData);
-  else userPlaces.value = ['New York', 'Hong Kong', 'Tokyo', 'Istanbul'];
-});
+const store = useStore();
 </script>
 
 <template>
   <main>
     <div class="header">
       <span class="material-symbols-outlined header__icon"> routine </span>
-      <h2 class="header__title">wow it's a weather app...</h2>
+      <h2 class="header__title">it's a weather app</h2>
     </div>
     <Transition mode="out-in">
-      <div v-if="!selectedPlace" class="start-screen">
-        <PlaceCard
-          v-for="(place, index) of userPlaces"
-          :key="index"
-          :place="place"
-          @set-place="setSelectedPlace"
-        />
-        <SearchBar @set-place="setSelectedPlace" />
+      <div v-if="!store.state.selectedPlace" class="start-screen">
+        <PlaceCard v-for="(place, index) of store.state.userPlaces" :key="index" :place="place" />
+        <SearchBar />
       </div>
-      <PlaceForecast
-        v-else-if="selectedPlace"
-        :place="selectedPlace"
-        @back-to-search="backToSearch"
-      />
+      <PlaceForecast v-else-if="store.state.selectedPlace" :place="store.state.selectedPlace" />
     </Transition>
   </main>
 </template>
@@ -49,8 +29,7 @@ onBeforeMount(() => {
 .header {
   height: 60px;
   width: 100%;
-  display: flex;
-  flex-direction: row;
+  @include flex-row;
   align-items: center;
   gap: 10px;
   cursor: default;

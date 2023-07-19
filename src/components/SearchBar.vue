@@ -2,12 +2,15 @@
 import { ref } from 'vue';
 import type { Ref } from 'vue';
 import axios from 'axios';
+import { useStore } from '../store';
 import type { LocationResponce } from '../types';
 
 const searchQuery = ref('');
 const queryTimeout: Ref<null | number> = ref(null);
 const searchResults: Ref<null | LocationResponce[]> = ref(null);
 const searchError: Ref<boolean> = ref(false);
+
+const store = useStore();
 
 const vFocus = {
   mounted: (el: HTMLInputElement) => el.focus(),
@@ -39,8 +42,6 @@ const formatPlaceName = (placeName: string) => {
   const parts = placeName.split(',');
   return `<b>${parts[0]}</b>,${parts.slice(1).join(',')}`;
 };
-
-const emit = defineEmits(['set-place']);
 </script>
 
 <template>
@@ -59,7 +60,7 @@ const emit = defineEmits(['set-place']);
           class="results__item"
           v-for="searchResult in searchResults"
           :key="searchResult.id"
-          @click="emit('set-place', searchResult.text_en)"
+          @click="store.commit('setSelectedPlace', searchResult.text_en)"
         >
           <p v-html="formatPlaceName(searchResult.place_name)"></p>
         </li>

@@ -1,3 +1,8 @@
+export interface State {
+  selectedPlace: string;
+  userPlaces: string[];
+}
+
 export interface LocationResponce {
   id: string;
   type: string;
