@@ -121,6 +121,7 @@ const formatLocationName = (locationName: string) => {
     .results__item {
       transition: all 0.2s;
       text-align: left;
+      cursor: pointer;
 
       &:hover {
         transform: translateX(4px);
