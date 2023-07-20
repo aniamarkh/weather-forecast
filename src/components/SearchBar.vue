@@ -81,7 +81,7 @@ const formatPlaceName = (placeName: string) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 360px;
+  width: 100%;
   margin-top: 10px;
 
   &__comment,

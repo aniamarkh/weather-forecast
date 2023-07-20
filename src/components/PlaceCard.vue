@@ -75,7 +75,7 @@ onMounted(() => {
 
 .place-card {
   @include glassmorphism;
-  width: 360px;
+  width: 100%;
   height: 90px;
 }
 

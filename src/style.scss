@@ -10,6 +10,30 @@
   color: white;
 }
 
+html {
+  position: relative;
+  min-height: 100vh;
+  background: var(--init-gradient);
+  background-size: 200% 200%;
+  animation: gradient 10s ease infinite;
+  overflow-x: hidden;
+}
+
+
+html::before {
+  content: "";
+  position: absolute;
+  top: 0; 
+  right: 0; 
+  bottom: 0; 
+  left: 0; 
+  background-image: url(assets/images/noise.svg);
+  background-attachment: fixed;
+  background-repeat: repeat;
+  background-size: 15%;
+  z-index: -2;
+}
+
 main {
   width: 360px;
   display: flex;
@@ -30,30 +54,6 @@ main {
 	100% {
 		background-position: 0% 50%;
 	}
-}
-
-html {
-  position: relative;
-  min-height: 100vh;
-  background: var(--init-gradient);
-  background-size: 200% 200%;
-  animation: gradient 10s ease infinite;
-  padding: 20px;
-  overflow-x: hidden;
-}
-
-
-html::before {
-  content: "";
-  position: absolute;
-  top: 0; 
-  right: 0; 
-  bottom: 0; 
-  left: 0; 
-  background-image: url(assets/images/noise.svg);
-  background-repeat: repeat;
-  background-size: 15%;
-  z-index: -1;
 }
 
 a {
@@ -84,6 +84,23 @@ button {
   transition: all 0.2s ease-in-out;
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--init-gradient);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffffff86;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: white;
+}
+
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.2s ease-in-out;
@@ -92,4 +109,13 @@ button {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+
+@media (max-width: 400px) {
+  main {
+    width: 100%;
+    max-width: 360px;
+    padding: 10px;
+  }
 }
