@@ -13,7 +13,7 @@ import { onBeforeMount, onUnmounted } from 'vue';
 
 const store = useStore();
 
-const props = defineProps<{ place: String }>();
+const props = defineProps<{ place: string }>();
 const loading = ref(true);
 const forecast: Ref<null | ForecastResponce> = ref(null);
 const errorMessage: Ref<string> = ref('');
@@ -76,6 +76,12 @@ const onLoad = () => {
   });
 };
 
+const toggleUserPlaces = (placeName: string) => {
+  store.getters.isPlaceInUserPlaces(placeName)
+    ? store.commit('removeUserPlace', placeName)
+    : store.commit('addUserPlace', placeName);
+};
+
 onBeforeMount(onLoad);
 
 onUnmounted(() => {
@@ -92,8 +98,8 @@ onUnmounted(() => {
     <div v-if="!loading && errorMessage" class="forecast__error">
       <p class="error__message">{{ errorMessage }}</p>
       <div class="error_buttons">
-        <button class="error__button" @click="onLoad">try again</button>
         <button class="error__button" @click="store.commit('removeSelectedPlace')">go back</button>
+        <button class="error__button" @click="onLoad">try again</button>
       </div>
     </div>
     <div v-if="!loading && forecast" class="forecast__result">
@@ -105,8 +111,10 @@ onUnmounted(() => {
           <p class="location__name">{{ forecast.location.name }}</p>
           <p class="location__country">{{ forecast.location.country }}</p>
         </div>
-        <button class="header__button">
-          <span class="material-symbols-outlined"> add </span>
+        <button @click="toggleUserPlaces(place)" class="header__button">
+          <span class="material-symbols-outlined">
+            {{ store.getters.isPlaceInUserPlaces(place) ? 'delete' : 'add' }}
+          </span>
         </button>
       </div>
       <ForecastCurrent :current="forecast.current" />

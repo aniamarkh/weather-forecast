@@ -71,9 +71,7 @@ const formatPlaceName = (placeName: string) => {
       <p v-else-if="searchResults && !searchResults.length && !searchError" class="search__comment">
         No places found 🤔
       </p>
-      <p v-else-if="searchError" class="search__comment">
-        Something went wrong, please try again 😵‍💫
-      </p>
+      <p v-else-if="searchError" class="search__error">Something went wrong, please try again 😵‍💫</p>
     </Transition>
   </div>
 </template>
@@ -86,7 +84,8 @@ const formatPlaceName = (placeName: string) => {
   width: 360px;
   margin-top: 10px;
 
-  &__comment {
+  &__comment,
+  .search__error {
     font-weight: bold;
     margin: 15px 10px 0;
     align-self: flex-start;

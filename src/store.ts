@@ -29,6 +29,13 @@ export const store = createStore<State>({
       localStorage.setItem('places', JSON.stringify(state.userPlaces));
     },
   },
+  getters: {
+    isPlaceInUserPlaces:
+      (state) =>
+      (placeName: string): boolean => {
+        return state.userPlaces.includes(placeName);
+      },
+  },
 });
 
 export function useStore() {
