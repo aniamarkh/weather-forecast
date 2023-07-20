@@ -2,8 +2,8 @@
 import { ref } from 'vue';
 import type { Ref } from 'vue';
 import axios from 'axios';
-import { useStore } from '../store';
-import type { LocationResponce } from '../types';
+import { useStore } from '@/store';
+import type { LocationResponce } from '@/types';
 
 const searchQuery = ref('');
 const queryTimeout: Ref<null | number> = ref(null);
@@ -16,7 +16,7 @@ const vFocus = {
   mounted: (el: HTMLInputElement) => el.focus(),
 };
 
-const searchPlaces = () => {
+const searchLocations = () => {
   if (queryTimeout.value !== null) clearTimeout(queryTimeout.value);
   queryTimeout.value = window.setTimeout(async () => {
     if (searchQuery.value !== '') {
@@ -38,8 +38,8 @@ const searchPlaces = () => {
   }, 500);
 };
 
-const formatPlaceName = (placeName: string) => {
-  const parts = placeName.split(',');
+const formatLocationName = (locationName: string) => {
+  const parts = locationName.split(',');
   return `<b>${parts[0]}</b>,${parts.slice(1).join(',')}`;
 };
 </script>
@@ -50,7 +50,7 @@ const formatPlaceName = (placeName: string) => {
       class="search__input"
       type="text"
       v-model="searchQuery"
-      @input="searchPlaces"
+      @input="searchLocations"
       placeholder="Enter city name here"
       v-focus
     />
@@ -60,16 +60,16 @@ const formatPlaceName = (placeName: string) => {
           class="results__item"
           v-for="searchResult in searchResults"
           :key="searchResult.id"
-          @click="store.commit('setSelectedPlace', searchResult.text_en)"
+          @click="store.commit('setSelectedLocation', searchResult.text_en)"
         >
-          <p v-html="formatPlaceName(searchResult.place_name)"></p>
+          <p v-html="formatLocationName(searchResult.place_name)"></p>
         </li>
       </ul>
       <p v-else-if="!searchResults && !searchError" class="search__comment">
         Start tracking a location by searching above.
       </p>
       <p v-else-if="searchResults && !searchResults.length && !searchError" class="search__comment">
-        No places found 🤔
+        No locations found 🤔
       </p>
       <p v-else-if="searchError" class="search__error">Something went wrong, please try again 😵‍💫</p>
     </Transition>
@@ -77,10 +77,10 @@ const formatPlaceName = (placeName: string) => {
 </template>
 
 <style lang="scss" scoped>
+@import '@/assets/config';
+
 .search {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @include flex-column;
   width: 100%;
   margin-top: 10px;
 

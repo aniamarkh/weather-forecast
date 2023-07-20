@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { CurrentWeather } from '../types';
-import ConditionIcon from './ConditionIcon.vue';
+import type { CurrentWeather } from '@/types';
+import ConditionIcon from '@/components/ConditionIcon.vue';
 
 defineProps<{ current: CurrentWeather }>();
 
@@ -50,7 +50,7 @@ const mbToMmHg = (mbValue: number) => {
 </template>
 
 <style scoped lang="scss">
-@import '../assets/_config.scss';
+@import '@/assets/_config.scss';
 
 .forecast__current {
   width: 100%;

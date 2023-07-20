@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { ForecastDay } from '../../types';
-import ConditionIcon from '../ConditionIcon.vue';
+import type { ForecastDay } from '@/types';
+import ConditionIcon from '@/components/ConditionIcon.vue';
 
 defineProps<{ dayForecast: ForecastDay; date: string }>();
 
@@ -39,7 +39,7 @@ const formatDate = (dateString: string) => {
 </template>
 
 <style scoped lang="scss">
-@import '../../assets/_config.scss';
+@import '@/assets/_config.scss';
 
 .daily__card {
   width: 100%;

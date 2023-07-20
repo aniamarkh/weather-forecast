@@ -1,6 +1,6 @@
 export interface State {
-  selectedPlace: string;
-  userPlaces: string[];
+  selectedLocation: string;
+  userLocations: string[];
 }
 
 export interface LocationResponce {

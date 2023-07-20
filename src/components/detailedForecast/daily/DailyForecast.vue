@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DailyForecast } from '../../types';
+import type { DailyForecast } from '@/types';
 import DailyCard from './DailyCard.vue';
 defineProps<{ dailyForecast: DailyForecast }>();
 </script>
@@ -16,7 +16,7 @@ defineProps<{ dailyForecast: DailyForecast }>();
 </template>
 
 <style scoped lang="scss">
-@import '../../assets/_config.scss';
+@import '@/assets/_config.scss';
 
 .forecast__daily {
   width: 100%;

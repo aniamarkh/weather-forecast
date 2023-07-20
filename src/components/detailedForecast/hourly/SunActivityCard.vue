@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { SunActivityObj } from '../../types';
-import ConditionIcon from '../ConditionIcon.vue';
+import type { SunActivityObj } from '@/types';
+import ConditionIcon from '@/components/ConditionIcon.vue';
 
 defineProps<{ cardInfo: SunActivityObj }>();
 </script>
@@ -14,7 +14,7 @@ defineProps<{ cardInfo: SunActivityObj }>();
 </template>
 
 <style scoped lang="scss">
-@import '../../assets/_config.scss';
+@import '@/assets/_config.scss';
 
 .today__sun-card {
   @include flex-column;

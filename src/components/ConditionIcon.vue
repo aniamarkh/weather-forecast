@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import iconMapping from '@/utils/iconMapping';
+
 const props = defineProps<{ code: number | string; is_day?: number }>();
-import iconMapping from '../utils/iconMapping';
 
 const currentWeatherIcon = computed((): string => {
   if (typeof props.code === 'string') {

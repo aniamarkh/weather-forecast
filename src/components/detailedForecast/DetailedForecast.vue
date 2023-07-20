@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import axios from 'axios';
-import { ref } from 'vue';
+import { ref, onBeforeMount, onUnmounted } from 'vue';
 import type { Ref } from 'vue';
-import type { ForecastResponce } from '../types';
-import { useStore } from '../store';
-import ForecastCurrent from './ForecatsCurrent.vue';
-import TodayForecast from './today/HourlyForecast.vue';
+import type { ForecastResponce } from '@/types';
+import { useStore } from '@/store';
+import { warmWeatherCodes, coldWeatherCodes, conditionGradients } from '@/utils/weatherGradients';
+import CurrentWeather from './CurrentWeather.vue';
+import TodayForecast from './hourly/HourlyForecast.vue';
 import DailyForecast from './daily/DailyForecast.vue';
-import LoadingDots from './LoadingDots.vue';
-import { warmWeatherCodes, coldWeatherCodes, conditionGradients } from '../utils/weatherGradients';
-import { onBeforeMount, onUnmounted } from 'vue';
+import LoadingDots from '../LoadingDots.vue';
 
 const store = useStore();
 
-const props = defineProps<{ place: string }>();
+const props = defineProps<{ location: string }>();
 const loading = ref(true);
 const forecast: Ref<null | ForecastResponce> = ref(null);
 const errorMessage: Ref<string> = ref('');
@@ -22,7 +21,7 @@ const getForecast = async () => {
   try {
     const currentResult = await axios.get(
       `https://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API_KEY}&q=${
-        props.place
+        props.location
       }&days=3&aqi=no&alerts=no`
     );
     forecast.value = currentResult.data as ForecastResponce;
@@ -76,10 +75,10 @@ const onLoad = () => {
   });
 };
 
-const toggleUserPlaces = (placeName: string) => {
-  store.getters.isPlaceInUserPlaces(placeName)
-    ? store.commit('removeUserPlace', placeName)
-    : store.commit('addUserPlace', placeName);
+const toggleUserLocations = (locationName: string) => {
+  store.getters.isInUserLocations(locationName)
+    ? store.commit('removeUserLocation', locationName)
+    : store.commit('addUserLocation', locationName);
 };
 
 onBeforeMount(onLoad);
@@ -98,26 +97,28 @@ onUnmounted(() => {
     <div v-if="!loading && errorMessage" class="forecast__error">
       <p class="error__message">{{ errorMessage }}</p>
       <div class="error_buttons">
-        <button class="error__button" @click="store.commit('removeSelectedPlace')">go back</button>
+        <button class="error__button" @click="store.commit('removeSelectedLocation')">
+          go back
+        </button>
         <button class="error__button" @click="onLoad">try again</button>
       </div>
     </div>
     <div v-if="!loading && forecast" class="forecast__result">
       <div class="forecast__header">
-        <button class="header__button" @click="store.commit('removeSelectedPlace')">
+        <button class="header__button" @click="store.commit('removeSelectedLocation')">
           <span class="material-symbols-outlined"> arrow_back </span>
         </button>
         <div class="header__location">
           <p class="location__name">{{ forecast.location.name }}</p>
           <p class="location__country">{{ forecast.location.country }}</p>
         </div>
-        <button @click="toggleUserPlaces(place)" class="header__button">
+        <button @click="toggleUserLocations(location)" class="header__button">
           <span class="material-symbols-outlined">
-            {{ store.getters.isPlaceInUserPlaces(place) ? 'delete' : 'add' }}
+            {{ store.getters.isInUserLocations(location) ? 'delete' : 'add' }}
           </span>
         </button>
       </div>
-      <ForecastCurrent :current="forecast.current" />
+      <CurrentWeather :current="forecast.current" />
       <TodayForecast
         :today="forecast.forecast.forecastday[0]"
         :tomorrow="forecast.forecast.forecastday[1]"
@@ -129,7 +130,7 @@ onUnmounted(() => {
 </template>
 
 <style scoped lang="scss">
-@import '../assets/_config.scss';
+@import '@/assets/_config.scss';
 .forecast {
   width: 100%;
 }

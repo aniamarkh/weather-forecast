@@ -4,36 +4,36 @@ import { State } from './types';
 
 export const key: InjectionKey<Store<State>> = Symbol();
 
-const initialUserPlaces = localStorage.getItem('places')
-  ? JSON.parse(localStorage.getItem('places') as string)
+const initialUserLocations = localStorage.getItem('locations')
+  ? JSON.parse(localStorage.getItem('locations') as string)
   : ['New York', 'Hong Kong', 'Tokyo', 'Istanbul'];
 
 export const store = createStore<State>({
   state: {
-    selectedPlace: '',
-    userPlaces: initialUserPlaces,
+    selectedLocation: '',
+    userLocations: initialUserLocations,
   },
   mutations: {
-    setSelectedPlace(state, place: string) {
-      state.selectedPlace = place;
+    setSelectedLocation(state, location: string) {
+      state.selectedLocation = location;
     },
-    removeSelectedPlace(state) {
-      state.selectedPlace = '';
+    removeSelectedLocation(state) {
+      state.selectedLocation = '';
     },
-    addUserPlace(state, place: string) {
-      state.userPlaces.push(place);
-      localStorage.setItem('places', JSON.stringify(state.userPlaces));
+    addUserLocation(state, location: string) {
+      state.userLocations.push(location);
+      localStorage.setItem('locations', JSON.stringify(state.userLocations));
     },
-    removeUserPlace(state, place: string) {
-      state.userPlaces = state.userPlaces.filter((p) => p !== place);
-      localStorage.setItem('places', JSON.stringify(state.userPlaces));
+    removeUserLocation(state, location: string) {
+      state.userLocations = state.userLocations.filter((p) => p !== location);
+      localStorage.setItem('locations', JSON.stringify(state.userLocations));
     },
   },
   getters: {
-    isPlaceInUserPlaces:
+    isInUserLocations:
       (state) =>
-      (placeName: string): boolean => {
-        return state.userPlaces.includes(placeName);
+      (locationName: string): boolean => {
+        return state.userLocations.includes(locationName);
       },
   },
 });

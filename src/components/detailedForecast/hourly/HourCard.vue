@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { HourInfoObj } from '../../types';
-import ConditionIcon from '../ConditionIcon.vue';
+import type { HourInfoObj } from '@/types';
+import ConditionIcon from '@/components/ConditionIcon.vue';
 
 defineProps<{ hourInfo: HourInfoObj }>();
 
@@ -22,7 +22,7 @@ const extractTime = (date: string) => {
 </template>
 
 <style scoped lang="scss">
-@import '../../assets/_config.scss';
+@import '@/assets/_config.scss';
 
 .today__hour-card {
   @include flex-column;

@@ -2,14 +2,14 @@
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import type { Ref } from 'vue';
-import { useStore } from '../store';
-import type { CurrentForecastResponce } from '../types';
-import ConditionIcon from './ConditionIcon.vue';
-import LoadingDots from './LoadingDots.vue';
+import { useStore } from '@/store';
+import type { CurrentForecastResponce } from '@/types';
+import ConditionIcon from '../ConditionIcon.vue';
+import LoadingDots from '../LoadingDots.vue';
 
 const store = useStore();
 
-const props = defineProps<{ place: String }>();
+const props = defineProps<{ location: String }>();
 const loading = ref(true);
 const forecast: Ref<null | CurrentForecastResponce> = ref(null);
 const errorMessage: Ref<string> = ref('');
@@ -18,7 +18,7 @@ const getForecast = async () => {
   try {
     const currentResult = await axios.get(
       `https://api.weatherapi.com/v1/current.json?key=${import.meta.env.VITE_WEATHER_API_KEY}&q=${
-        props.place
+        props.location
       }&aqi=no`
     );
     forecast.value = currentResult.data as CurrentForecastResponce;
@@ -44,21 +44,21 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="place-card">
+  <div class="location-card">
     <LoadingDots v-if="loading" />
-    <div v-if="!loading && errorMessage" class="place-card__error">
+    <div v-if="!loading && errorMessage" class="location-card__error">
       <p class="error__message">{{ errorMessage }}</p>
     </div>
     <div
       v-if="!loading && forecast"
-      class="place-card__result"
-      @click="store.commit('setSelectedPlace', place)"
+      class="location-card__result"
+      @click="store.commit('setSelectedLocation', location)"
     >
-      <div class="place-card__location">
+      <div class="location-card__location">
         <p class="location__name">{{ forecast.location.name }}</p>
         <p class="location__country">{{ forecast.location.country }}</p>
       </div>
-      <div class="place-card__condition">
+      <div class="location-card__condition">
         <ConditionIcon
           class="condition__icon"
           :code="forecast.current.condition.code"
@@ -71,15 +71,15 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@import '../assets/_config.scss';
+@import '@/assets/_config.scss';
 
-.place-card {
+.location-card {
   @include glassmorphism;
   width: 100%;
   height: 90px;
 }
 
-.place-card__error {
+.location-card__error {
   width: 100%;
   height: 100%;
   @include flex-column;
@@ -93,7 +93,7 @@ onMounted(() => {
   font-weight: 600;
 }
 
-.place-card__result {
+.location-card__result {
   width: 100%;
   height: 100%;
   @include flex-row;
@@ -118,7 +118,7 @@ onMounted(() => {
   font-size: 1rem;
 }
 
-.place-card__condition {
+.location-card__condition {
   @include flex-row;
   gap: 10px;
   align-items: center;

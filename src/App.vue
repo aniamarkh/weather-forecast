@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useStore } from './store';
-import SearchBar from './components/SearchBar.vue';
-import PlaceForecast from './components/PlaceForecast.vue';
-import PlaceCard from './components/PlaceCard.vue';
+import SearchBar from './components/startScreen/SearchBar.vue';
+import DetailedForecast from '@/components/detailedForecast/DetailedForecast.vue';
+import LocationCard from '@/components/startScreen/LocationCard.vue';
 
 const store = useStore();
 </script>
@@ -14,17 +14,24 @@ const store = useStore();
       <h2 class="header__title">it's a weather app</h2>
     </div>
     <Transition mode="out-in">
-      <div v-if="!store.state.selectedPlace" class="start-screen">
-        <PlaceCard v-for="(place, index) of store.state.userPlaces" :key="index" :place="place" />
+      <div v-if="!store.state.selectedLocation" class="start-screen">
+        <LocationCard
+          v-for="(location, index) of store.state.userLocations"
+          :key="index"
+          :location="location"
+        />
         <SearchBar />
       </div>
-      <PlaceForecast v-else-if="store.state.selectedPlace" :place="store.state.selectedPlace" />
+      <DetailedForecast
+        v-else-if="store.state.selectedLocation"
+        :location="store.state.selectedLocation"
+      />
     </Transition>
   </main>
 </template>
 
 <style lang="scss" scoped>
-@import './assets/config';
+@import '@/assets/config';
 
 .header {
   height: 60px;
@@ -37,6 +44,7 @@ const store = useStore();
 
 .start-screen {
   @include flex-column;
+  width: 100%;
   gap: 15px;
 }
 

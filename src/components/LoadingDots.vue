@@ -7,7 +7,7 @@
 </template>
 
 <style lang="scss" scoped>
-@import '../assets/_config.scss';
+@import '@/assets/_config.scss';
 .loader {
   width: 100%;
   height: 100%;

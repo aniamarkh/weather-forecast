@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, Ref, watch } from 'vue';
-import type { ForecastDay, HourInfoObj, SunActivityObj } from '../../types';
-import ByHoursCard from './ByHoursCard.vue';
+import type { ForecastDay, HourInfoObj, SunActivityObj } from '@/types';
+import HourCard from './HourCard.vue';
 import SunActivityCard from './SunActivityCard.vue';
 
 const props = defineProps<{
@@ -135,7 +135,7 @@ watch(
           :key="index + 'sunActivity'"
           :card-info="(card as SunActivityObj)"
         />
-        <ByHoursCard v-else :key="index" :hour-info="(card as HourInfoObj)" />
+        <HourCard v-else :key="index" :hour-info="(card as HourInfoObj)" />
       </template>
     </div>
     <button
@@ -149,7 +149,7 @@ watch(
 </template>
 
 <style scoped lang="scss">
-@import '../../assets/_config.scss';
+@import '@/assets/_config.scss';
 
 .forecast__by-hours {
   width: 100%;
