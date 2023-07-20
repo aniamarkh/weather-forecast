@@ -8,7 +8,7 @@ defineProps<{ cardInfo: SunActivityObj }>();
 <template>
   <div class="today__sun-card">
     <p class="sun-card__time">{{ cardInfo.time }}</p>
-    <ConditionIcon class="sun-card__icon" :code="cardInfo.type" />
+    <ConditionIcon class="sun-card__icon" :condition-code="cardInfo.type" />
     <p class="sun-card__type">{{ cardInfo.type }}</p>
   </div>
 </template>

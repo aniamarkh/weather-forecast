@@ -14,11 +14,11 @@ const mbToMmHg = (mbValue: number) => {
 </script>
 
 <template>
-  <div class="forecast__current">
+  <div class="forecast__current" tabindex="0">
     <div class="current__main">
       <ConditionIcon
         class="current__icon"
-        :code="current.condition.code"
+        :condition-code="current.condition.code"
         :is_day="current.is_day"
       />
       <p class="current__temp">{{ Math.round(current.temp_c) + '°' }}</p>
@@ -30,19 +30,19 @@ const mbToMmHg = (mbValue: number) => {
     </p>
     <div class="current__secondary">
       <div class="secondary__item">
-        <span class="material-symbols-outlined">humidity_percentage</span>
+        <span class="material-symbols-outlined" aria-label="Humidity">humidity_percentage</span>
         <p>{{ current.humidity + '%' }}</p>
       </div>
       <div class="secondary__item">
-        <span class="material-symbols-outlined">air</span>
+        <span class="material-symbols-outlined" aria-label="Wind speed">air</span>
         <p>{{ kphIntoMps(current.wind_kph) + ' m/s' }}</p>
       </div>
       <div class="secondary__item">
-        <span class="material-symbols-outlined">speed</span>
+        <span class="material-symbols-outlined" aria-label="Pressure">speed</span>
         <p>{{ mbToMmHg(current.pressure_mb) + ' mmHg' }}</p>
       </div>
       <div class="secondary__item">
-        <span class="uv">UV</span>
+        <span class="uv" aria-label="UV-index">UV</span>
         <p>{{ current.uv }}</p>
       </div>
     </div>

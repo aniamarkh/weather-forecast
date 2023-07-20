@@ -31,7 +31,12 @@ const formatDate = (dateString: string) => {
       <p class="card__date">{{ formatDate(date) }}</p>
     </div>
     <div class="card__right">
-      <ConditionIcon class="card__icon" :code="dayForecast.day.condition.code" :is_day="1" />
+      <ConditionIcon
+        class="card__icon"
+        :condition-code="dayForecast.day.condition.code"
+        :condition-text="dayForecast.day.condition.text"
+        :is_day="1"
+      />
       <p class="card__maxtemp">{{ Math.round(dayForecast.day.maxtemp_c) + '°' }}</p>
       <p class="card__mintemp">{{ Math.round(dayForecast.day.mintemp_c) + '°' }}</p>
     </div>

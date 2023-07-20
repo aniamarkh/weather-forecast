@@ -44,7 +44,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="location-card">
+  <div class="location-card" tabindex="0">
     <LoadingDots v-if="loading" />
     <div v-if="!loading && errorMessage" class="location-card__error">
       <p class="error__message">{{ errorMessage }}</p>
@@ -61,7 +61,8 @@ onMounted(() => {
       <div class="location-card__condition">
         <ConditionIcon
           class="condition__icon"
-          :code="forecast.current.condition.code"
+          :condition-code="forecast.current.condition.code"
+          :condition-text="forecast.current.condition.text"
           :is_day="forecast.current.is_day"
         />
         <p class="condition__temp">{{ Math.round(forecast.current.temp_c) + '°' }}</p>

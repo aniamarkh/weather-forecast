@@ -11,10 +11,13 @@ const extractTime = (date: string) => {
 
 <template>
   <div class="today__hour-card">
-    <p class="hour-card__time">{{ extractTime(hourInfo.time) }}</p>
+    <p class="hour-card__time" :aria-label="extractTime(hourInfo.time).slice(0, 2) + ' hours'">
+      {{ extractTime(hourInfo.time) }}
+    </p>
     <ConditionIcon
       class="hour-card__icon"
-      :code="hourInfo.condition.code"
+      :condition-code="hourInfo.condition.code"
+      :condition-text="hourInfo.condition.text"
       :is_day="hourInfo.is_day"
     />
     <p class="hour-card__temp">{{ Math.round(hourInfo.temp_c) + '°' }}</p>

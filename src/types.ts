@@ -82,6 +82,7 @@ export interface HourInfoObj {
   is_day: number;
   condition: {
     code: number;
+    text: string;
   };
 }
 

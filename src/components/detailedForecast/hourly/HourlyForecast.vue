@@ -120,15 +120,17 @@ watch(
 </script>
 
 <template>
-  <div class="forecast__by-hours">
+  <div class="forecast__by-hours" tabindex="0" aria-label="Hourly forecast">
     <button
       :disabled="scrollToLeft"
       class="by-hours__button by-hours__button--left"
       @click="scrollLeft"
+      tabindex="-1"
+      aria-label="scroll to earlier hours"
     >
       <span class="material-symbols-outlined"> chevron_left </span>
     </button>
-    <div ref="cardsContainer" class="by-hours__cards" @scroll="checkScroll">
+    <div ref="cardsContainer" class="by-hours__cards" @scroll="checkScroll" tabindex="0">
       <template v-for="(card, index) in cardsData">
         <SunActivityCard
           v-if="(card as SunActivityObj).type"
@@ -142,6 +144,8 @@ watch(
       :disabled="scrollToRight"
       class="by-hours__button by-hours__button--right"
       @click="scrollRight"
+      tabindex="-1"
+      aria-laber="scroll to later hours"
     >
       <span class="material-symbols-outlined"> chevron_right </span>
     </button>

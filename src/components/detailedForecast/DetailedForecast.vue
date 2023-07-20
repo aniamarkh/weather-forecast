@@ -105,14 +105,30 @@ onUnmounted(() => {
     </div>
     <div v-if="!loading && forecast" class="forecast__result">
       <div class="forecast__header">
-        <button class="header__button" @click="store.commit('removeSelectedLocation')">
+        <button
+          class="header__button"
+          @click="store.commit('removeSelectedLocation')"
+          aria-label="back to start screen"
+        >
           <span class="material-symbols-outlined"> arrow_back </span>
         </button>
-        <div class="header__location">
+        <div
+          class="header__location"
+          tabindex="0"
+          :aria-label="forecast.location.name + ' detailed forecast'"
+        >
           <p class="location__name">{{ forecast.location.name }}</p>
           <p class="location__country">{{ forecast.location.country }}</p>
         </div>
-        <button @click="toggleUserLocations(location)" class="header__button">
+        <button
+          class="header__button"
+          @click="toggleUserLocations(location)"
+          :aria-label="
+            store.getters.isInUserLocations(location)
+              ? 'delete location from saved locations'
+              : 'save this location'
+          "
+        >
           <span class="material-symbols-outlined">
             {{ store.getters.isInUserLocations(location) ? 'delete' : 'add' }}
           </span>

@@ -45,13 +45,13 @@ const formatLocationName = (locationName: string) => {
 </script>
 
 <template>
-  <div class="search">
+  <div class="search" role="search">
     <input
       class="search__input"
       type="text"
       v-model="searchQuery"
       @input="searchLocations"
-      placeholder="Enter city name here"
+      placeholder="Search location"
       v-focus
     />
     <Transition mode="out-in">
@@ -61,6 +61,8 @@ const formatLocationName = (locationName: string) => {
           v-for="searchResult in searchResults"
           :key="searchResult.id"
           @click="store.commit('setSelectedLocation', searchResult.text_en)"
+          tabindex="0"
+          @keyup.enter="store.commit('setSelectedLocation', searchResult.text_en)"
         >
           <p v-html="formatLocationName(searchResult.place_name)"></p>
         </li>
@@ -117,8 +119,8 @@ const formatLocationName = (locationName: string) => {
     padding: 15px 10px;
     width: 100%;
     .results__item {
-      cursor: pointer;
       transition: all 0.2s;
+      text-align: left;
 
       &:hover {
         transform: translateX(4px);
