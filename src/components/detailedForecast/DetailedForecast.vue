@@ -10,6 +10,7 @@ import TodayForecast from './hourly/HourlyForecast.vue';
 import DailyForecast from './daily/DailyForecast.vue';
 import LoadingDots from '../LoadingDots.vue';
 import UVindexGraph from './UVindexGraph.vue';
+import BlockTitle from '@/components/BlockTitle.vue';
 
 const store = useStore();
 
@@ -136,13 +137,16 @@ onUnmounted(() => {
         </button>
       </div>
       <CurrentWeather :current="forecast.current" />
+      <BlockTitle title="Next 24 hour:" />
       <TodayForecast
         :today="forecast.forecast.forecastday[0]"
         :tomorrow="forecast.forecast.forecastday[1]"
         :last_updated="forecast.current.last_updated"
       />
-      <DailyForecast :daily-forecast="forecast.forecast" />
+      <BlockTitle title="UV index for today:" />
       <UVindexGraph :today-forecast="forecast.forecast.forecastday[0]" />
+      <BlockTitle title="3 day forecast:" />
+      <DailyForecast :daily-forecast="forecast.forecast" />
     </div>
   </div>
 </template>
