@@ -5,7 +5,7 @@ defineProps<{ dailyForecast: DailyForecast }>();
 </script>
 
 <template>
-  <div class="forecast__daily" tabindex="0" aria-label="3 day forecast">
+  <div class="forecast__daily" tabindex="0">
     <DailyCard
       v-for="(day, index) of dailyForecast.forecastday"
       :key="index"

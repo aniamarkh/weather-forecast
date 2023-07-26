@@ -120,7 +120,7 @@ watch(
 </script>
 
 <template>
-  <div class="forecast__by-hours" tabindex="0" aria-label="Hourly forecast">
+  <div class="forecast__by-hours" tabindex="0">
     <button
       :disabled="scrollToLeft"
       class="by-hours__button by-hours__button--left"

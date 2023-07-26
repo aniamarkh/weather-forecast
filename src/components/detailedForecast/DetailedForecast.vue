@@ -97,7 +97,7 @@ onUnmounted(() => {
   <div class="forecast">
     <LoadingDots v-if="loading" />
     <div v-if="!loading && errorMessage" class="forecast__error">
-      <p class="error__message">{{ errorMessage }}</p>
+      <p class="error__message" :aria-label="errorMessage" tabindex="0">{{ errorMessage }}</p>
       <div class="error_buttons">
         <button class="error__button" @click="store.commit('removeSelectedLocation')">
           go back
@@ -186,7 +186,7 @@ onUnmounted(() => {
 .forecast__result {
   width: 100%;
   @include flex-column;
-  gap: 15px;
+  gap: 10px;
   padding: 0 10px;
 }
 .forecast__header {

@@ -1,9 +1,5 @@
-<template>
-  <div ref="chartDom" class="uv-index__graph" aria-label="uv-index graph"></div>
-</template>
-
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import * as echarts from 'echarts';
 import type { ForecastDay, HourInfoObj } from '@/types';
 
@@ -20,7 +16,7 @@ const getHoursArray = (data: HourInfoObj[]): string[] => {
 
 const getUVindexArray = (data: HourInfoObj[]) => {
   return data.map((hour: HourInfoObj) => {
-    if (hour.uv > 5 && hour.uv < 8) {
+    if (hour.uv >= 5 && hour.uv < 8) {
       return { value: hour.uv, itemStyle: { color: '#ff9999d2' } };
     } else if (hour.uv >= 8) {
       return { value: hour.uv, itemStyle: { color: '#d64949d2' } };
@@ -30,10 +26,16 @@ const getUVindexArray = (data: HourInfoObj[]) => {
   });
 };
 
+const highUVTimes = computed(() => {
+  const highUVHours = props.todayForecast.hour.filter((hour) => hour.uv >= 5);
+  return highUVHours.map((hour) => new Date(hour.time).getHours() + ':00');
+});
+
 const options = ref({
   grid: {
-    top: '15%',
+    top: '5%',
     bottom: '15%',
+    right: '5%',
   },
   xAxis: {
     type: 'category',
@@ -101,12 +103,31 @@ onMounted(() => {
 });
 </script>
 
+<template>
+  <div class="uv-index">
+    <div class="uv-index__graph" ref="chartDom" aria-label="UV index graph" tabindex="0"></div>
+    <p class="uv-index__desc" v-if="highUVTimes.length" tabindex="0">
+      The UV index is high from {{ highUVTimes[0] }} through
+      {{ highUVTimes[highUVTimes.length - 1] }}. Remember to wear sunscreen during this period!
+    </p>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 @import '@/assets/_config.scss';
 
-div {
+.uv-index {
   @include glassmorphism;
+  padding: 20px;
+}
+.uv-index__graph {
   width: 100%;
   height: 220px;
+}
+
+.uv-index__desc {
+  text-align: justify;
+  padding-top: 10px;
+  font-size: 1rem;
 }
 </style>
