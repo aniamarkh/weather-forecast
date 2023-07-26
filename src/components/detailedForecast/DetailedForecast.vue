@@ -9,6 +9,7 @@ import CurrentWeather from './CurrentWeather.vue';
 import TodayForecast from './hourly/HourlyForecast.vue';
 import DailyForecast from './daily/DailyForecast.vue';
 import LoadingDots from '../LoadingDots.vue';
+import UVindexGraph from './UVindexGraph.vue';
 
 const store = useStore();
 
@@ -141,6 +142,7 @@ onUnmounted(() => {
         :last_updated="forecast.current.last_updated"
       />
       <DailyForecast :daily-forecast="forecast.forecast" />
+      <UVindexGraph :today-forecast="forecast.forecast.forecastday[0]" />
     </div>
   </div>
 </template>

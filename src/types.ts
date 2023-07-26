@@ -84,6 +84,7 @@ export interface HourInfoObj {
     code: number;
     text: string;
   };
+  uv: number;
 }
 
 export interface SunActivityObj {

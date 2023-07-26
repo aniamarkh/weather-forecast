@@ -44,15 +44,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="location-card" tabindex="0">
+  <div class="location-card">
     <LoadingDots v-if="loading" />
     <div v-if="!loading && errorMessage" class="location-card__error">
       <p class="error__message">{{ errorMessage }}</p>
     </div>
     <div
+      tabindex="0"
       v-if="!loading && forecast"
       class="location-card__result"
       @click="store.commit('setSelectedLocation', location)"
+      @keyup.enter="store.commit('setSelectedLocation', location)"
     >
       <div class="location-card__location">
         <p class="location__name">{{ forecast.location.name }}</p>
