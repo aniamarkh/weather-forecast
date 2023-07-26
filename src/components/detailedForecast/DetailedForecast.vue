@@ -187,7 +187,7 @@ onUnmounted(() => {
   width: 100%;
   @include flex-column;
   gap: 10px;
-  padding: 0 10px;
+  padding: 0 10px 10px;
 }
 .forecast__header {
   @include flex-row;
