@@ -1,18 +1,47 @@
-# Vue 3 + TypeScript + Vite
+# Weather App
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Weather App is a weather forecasting application that allows users to search for locations, view current weather conditions, and get future forecasts.
 
-## Recommended IDE Setup
+## [Deploy](https://weather-forecast-aniamarkh.vercel.app/)
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Features
 
-## Type Support For `.vue` Imports in TS
+- **Search:** Type to see location suggestions. You get instant feedback if there are errors or no matches.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+- **Save Locations:** You can save locations. They are stored in the browser's local storage and show up on the start screen above the search bar.
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+- **Current Conditions:** Select a location and see a detailed weather conditions such as temperature, humidity, wind speed, atmospheric pressure, and the UV index.
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+- **Next 24 Hours Forecast**: See the hourly forecast for the next 24 hours. Includes sunrise and sunset times.
+
+- **UV Index Chart**: Displays a chart of the UV index for the current day and provides a clear overview of UV risk levels throughout the day.
+
+- **3 Day Forecast:** Provides a concise 3-day weather forecast to help users plan ahead.
+
+## Technologies Used
+
+- **Vite, Vue.js, TypeScript**.
+- **[Mapbox Geocoding API](https://docs.mapbox.com/api/search/geocoding/)**: Used to provide location search suggestions as users type in the search bar.
+- **[WeatherAPI](https://www.weatherapi.com/)**: Provides detailed weather data for the application.
+- **[vue-echarts](https://vue-echarts.dev/)**: Used to create the UV index chart.
+- **Vuex**: Used for state management. I used it to practice, even though Pinia might be a preferred choice. It handles selected and saved locations and saves them between sessions using localStorage.
+- **Scss**
+- **Axios**
+
+## Getting Started
+
+To run this project locally, follow these steps:
+
+1. Clone the repository:
+
+`git clone https://github.com/aniamarkh/weather-forecast.git`
+
+2. Install the dependencies:
+
+`npm install`
+
+3. Run the application:
+
+`npm run dev`
+
+This will start the local development server. You can then navigate to localhost:5173 in your browser to see the application.
