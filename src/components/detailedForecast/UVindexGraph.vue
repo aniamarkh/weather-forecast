@@ -16,9 +16,7 @@ const getHoursArray = (data: HourInfoObj[]): string[] => {
 
 const getUVindexArray = (data: HourInfoObj[]) => {
   return data.map((hour: HourInfoObj) => {
-    if (hour.uv >= 5 && hour.uv < 8) {
-      return { value: hour.uv, itemStyle: { color: '#ff9999d2' } };
-    } else if (hour.uv >= 8) {
+    if (hour.uv >= 5) {
       return { value: hour.uv, itemStyle: { color: '#d64949d2' } };
     } else {
       return { value: hour.uv, itemStyle: { color: '#ffffffd2' } };
