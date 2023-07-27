@@ -4,6 +4,8 @@ Weather App is a weather forecasting application that allows users to search for
 
 ## [Deploy](https://weather-forecast-aniamarkh.vercel.app/)
 
+![screen-capture (4)](https://github.com/aniamarkh/weather-forecast/assets/93217444/5aa7e420-f8c2-435a-aff0-dc808bd00efd)
+
 ## Features
 
 - **Search:** Type to see location suggestions. You get instant feedback if there are errors or no matches.
@@ -17,6 +19,10 @@ Weather App is a weather forecasting application that allows users to search for
 - **UV Index Chart**: Displays a chart of the UV index for the current day and provides a clear overview of UV risk levels throughout the day.
 
 - **3 Day Forecast:** Provides a concise 3-day weather forecast to help users plan ahead.
+
+- **Accessibility**: All important information can be read by screen readers and the app is navigable using keyboard tabs.
+
+- **Mobile-first approach**: app is optimized for mobile devices but also works well on larger screens.
 
 ## Technologies Used
 
