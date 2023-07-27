@@ -14,23 +14,7 @@ html {
   position: relative;
   min-height: 100vh;
   background: var(--init-gradient);
-  background-size: 200% 200%;
-  animation: gradient 10s ease infinite;
   overflow-x: hidden;
-}
-
-
-html::before {
-  content: "";
-  position: absolute;
-  top: 0; 
-  right: 0; 
-  bottom: 0; 
-  left: 0; 
-  background-image: url(assets/images/noise.svg);
-  background-repeat: repeat;
-  background-size: 15%;
-  z-index: -2;
 }
 
 main {
@@ -41,18 +25,6 @@ main {
   justify-content: flex-start;
   margin: 0 auto;
   z-index: 1;
-}
-
-@keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
 }
 
 a {
